@@ -1,7 +1,6 @@
 /** @jsxRuntime classic /
 /* @jsx jsx */
 import { jsx } from "@emotion/react";
-import React, { useState } from "react";
 
 const layers = [
   {
@@ -66,15 +65,18 @@ const template = {
   backgroundColor: "grey"
 };
 
+const zoom = (size, value = 0.6) => {
+  return `calc(${size * value}px)`;
+};
+
 const classes = {
   editor: {
-    maxWidth: "90vw",
-    maxHeight: "90vh",
-    overflow: "scroll"
+    width: "100vw",
+    height: "100vh"
   },
   template: ({ width, height, backgroundColor }) => ({
-    width,
-    height,
+    height: zoom(height),
+    width: zoom(width),
     position: "relative",
     backgroundColor
   }),
@@ -92,18 +94,21 @@ const classes = {
     backgroundColor: "blue",
     position: "relative"
   }),
-  layer: ({ width, top, left, height }) => ({
-    width,
-    top,
-    height,
-    left,
+  layer: (layer) => ({
+    width: zoom(layer.width),
+    top: zoom(layer.top),
+    height: zoom(layer.height),
+    left: zoom(layer.left),
     position: "absolute"
   }),
   image: {
-    width: "100%"
+    width: "100%",
+    height: "100%",
+    objectFit: "cover"
   },
   input: (layer) => ({
-    fontSize: layer.size,
+    fontSize: zoom(layer.size),
+    // fontSize: layer.size,
     color: layer.color,
     textAlign: layer.alignment,
     backgroundColor: "transparent",
@@ -139,7 +144,10 @@ const Editor = () => {
       <div css={classes.template(template)}>
         {template.layers.map((layer) =>
           layer.type === "mask" ? (
-            <div css={[classes.mask(layer), classes.layer(layer)]}>
+            <div
+              css={[classes.mask(layer), classes.layer(layer)]}
+              key={layer.id}
+            >
               {layer.layers.map((subLayer) => (
                 <div css={classes.layer(subLayer)} key={subLayer.id}>
                   {getLayer(subLayer)}
