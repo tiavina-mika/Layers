@@ -1,6 +1,7 @@
 /** @jsxRuntime classic /
 /* @jsx jsx */
 import { jsx } from "@emotion/react";
+import { cmToPx, zoom } from "./utils/utils";
 
 const layers = [
   {
@@ -72,14 +73,10 @@ const layers = [
 ];
 const template = {
   name: "template1",
-  width: 600,
-  height: 600,
+  width: 11,
+  height: 11,
   layers,
   backgroundColor: "grey"
-};
-
-const zoom = (size, value = 0.6) => {
-  return `calc(${size * value}px)`;
 };
 
 const classes = {
@@ -87,11 +84,12 @@ const classes = {
     width: "100vw",
     height: "100vh"
   },
-  template: ({ width, height, backgroundColor }) => ({
-    height: zoom(height),
-    width: zoom(width),
+  template: (template) => ({
+    height: zoom(template, cmToPx(template.height)),
+    width: zoom(template, cmToPx(template.width)),
+    // width: zoom(width),
     position: "relative",
-    backgroundColor
+    backgroundColor: template.backgroundColor
   }),
   mask: (layer) => ({
     width: layer.width,
@@ -107,11 +105,11 @@ const classes = {
     backgroundColor: "blue",
     position: "relative"
   }),
-  layer: (layer) => ({
-    width: zoom(layer.width),
-    top: zoom(layer.top),
-    height: zoom(layer.height),
-    left: zoom(layer.left),
+  layer: (template, layer) => ({
+    width: zoom(template, layer.width),
+    top: zoom(template, layer.top),
+    height: zoom(template, layer.height),
+    left: zoom(template, layer.left),
     position: "absolute"
   }),
   image: {
@@ -119,8 +117,8 @@ const classes = {
     height: "100%",
     objectFit: "cover"
   },
-  input: (layer) => ({
-    fontSize: zoom(layer.size),
+  input: (template, layer) => ({
+    fontSize: zoom(template, layer.size),
     // fontSize: layer.size,
     color: layer.color,
     textAlign: layer.alignment,
@@ -137,20 +135,35 @@ const Editor = () => {
     switch (layer.type) {
       case "userText":
         return (
-          // <div css={classes.layer(layer)} key={layer.id}>
-          <input type="text" value={layer.text} css={classes.input(layer)} />
-          // </div>
+          <input
+            type="text"
+            value={layer.text}
+            css={classes.input(template, layer)}
+            onChange={() => {}}
+          />
         );
       case "image":
-        return (
-          // <div css={classes.layer(layer)} key={layer.id}>
-          <img alt="layer" src={layer.imageId} css={classes.image} />
-          // </div>
-        );
+        return <img alt="layer" src={layer.imageId} css={classes.image} />;
       default:
         return <img alt="layer" src={layer.imageId} css={classes.image} />;
     }
   };
+
+  // console.log('50.7', cmToPx(50.7));
+  // console.log('50', cmToPx(50));
+  // console.log('47', cmToPx(47));
+  // console.log('43', cmToPx(43));
+  // console.log('42', cmToPx(42));
+  // console.log('41', cmToPx(41));
+  // console.log('40', cmToPx(40));
+  // console.log('47', cmToPx(47));
+  // console.log('34', cmToPx(34));
+  // console.log('31', cmToPx(31));
+  // console.log('30', cmToPx(30));
+  // console.log('28.5', cmToPx(28.5));
+  // console.log('22', cmToPx(22));
+  // console.log('21', cmToPx(21));
+  // console.log('20', cmToPx(20));
 
   return (
     <div css={classes.editor}>
@@ -158,17 +171,17 @@ const Editor = () => {
         {template.layers.map((layer) =>
           layer.type === "mask" ? (
             <div
-              css={[classes.mask(layer), classes.layer(layer)]}
+              css={[classes.mask(layer), classes.layer(template, layer)]}
               key={layer.id}
             >
               {layer.layers.map((subLayer) => (
-                <div css={classes.layer(subLayer)} key={subLayer.id}>
+                <div css={classes.layer(template, subLayer)} key={subLayer.id}>
                   {getLayer(subLayer)}
                 </div>
               ))}
             </div>
           ) : (
-            <div css={classes.layer(layer)} key={layer.id}>
+            <div css={classes.layer(template, layer)} key={layer.id}>
               {getLayer(layer)}
             </div>
           )
