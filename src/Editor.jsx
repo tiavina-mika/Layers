@@ -68,8 +68,8 @@ const template = {
 
 const classes = {
   editor: {
-    width: 400,
-    height: 400,
+    maxWidth: "90vw",
+    maxHeight: "90vh",
     overflow: "scroll"
   },
   template: ({ width, height, backgroundColor }) => ({
