@@ -17,9 +17,22 @@ const layers = [
         type: "userImage",
         top: 0,
         left: 0,
+        width: 250,
+        height: 250,
+        imageId: "/me.jpg"
+      },
+      {
+        id: "masktext1",
+        type: "userText",
+        top: 50,
+        left: 60,
         width: 200,
         height: 200,
-        imageId: "/me.jpg"
+        text: "cool 1",
+        font: "Montserrat",
+        size: 32,
+        alignment: "left",
+        color: "blue"
       }
     ]
   },
@@ -37,8 +50,8 @@ const layers = [
         type: "image",
         top: 0,
         left: 0,
-        width: 200,
-        height: 200,
+        width: 260,
+        height: 260,
         imageId: "/image1.jpg"
       }
     ]
@@ -46,7 +59,7 @@ const layers = [
   {
     id: "text1",
     type: "userText",
-    top: 0,
+    top: 500,
     left: 0,
     width: 200,
     height: 200,
