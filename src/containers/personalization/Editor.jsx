@@ -19,7 +19,6 @@ const classes = {
   template: (template) => ({
     height: zoom(template, cmToPx(template.height)),
     width: zoom(template, cmToPx(template.width)),
-    // width: zoom(width),
     position: "relative",
     backgroundColor: template.backgroundColor
   }),
