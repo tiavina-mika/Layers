@@ -24,13 +24,13 @@ const classes = {
   })
 };
 
-const TextColor = ({ onChange }) => {
+const TextColor = ({ onChange, name }) => {
   return (
     <div className="flexCenter stretchSelf">
       <div className="flexRow" css={classes.colors}>
         {COLORS.map((color, index) => (
           <button
-            onClick={() => onChange(color.color)}
+            onClick={() => onChange(color.color, name)}
             key={index}
             type="button"
             css={classes.button}

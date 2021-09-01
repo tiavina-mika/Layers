@@ -43,7 +43,7 @@ const classes = {
   }
 };
 
-const TextSize = ({ onChange, value }) => {
+const TextSize = ({ onChange, value, name }) => {
   return (
     // ISSUES: https://github.com/ant-design/ant-design/issues/26136
     <AntdSlider
@@ -53,7 +53,7 @@ const TextSize = ({ onChange, value }) => {
       min={18}
       max={32}
       defaultValue={value}
-      onChange={onChange}
+      onChange={(value) => onChange(value, name)}
     />
   );
 };

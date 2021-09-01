@@ -71,13 +71,12 @@ const Editor = ({
   template,
   onEditTemplate,
   property,
-  values,
   onChange,
   onSelectLayer
 }) => {
   const selectLayer = (layer) => {
     if (!onSelectLayer) return;
-    if (layer.type === "image" || layer.type === "userText") return;
+    if (layer.type === "image") return;
     onSelectLayer(layer);
     // if (layer.type === "userImage") {
     //   const newTemplate = { ...template };
@@ -97,6 +96,9 @@ const Editor = ({
     [template, onEditTemplate]
   );
 
+  // --------------------------------- //
+  // --- each layer type component --- //
+  // --------------------------------- //
   const getLayer = useCallback(
     (layer) => {
       switch (layer.type) {
@@ -121,6 +123,9 @@ const Editor = ({
     [template, onChangeTextLayer]
   );
 
+  // --------------------------------------------------- //
+  // --- each layer and subLayer conatiner component --- //
+  // --------------------------------------------------- //
   const layerComponent = (layer) => (
     <div
       css={classes.layer(template, layer)}
@@ -133,6 +138,9 @@ const Editor = ({
 
   if (!template) return null;
 
+  // ----------------------------------------- //
+  // ------------ form components ------------ //
+  // ----------------------------------------- //
   let propertySelectComponent;
   let title;
 
@@ -140,16 +148,12 @@ const Editor = ({
   switch (property) {
     case EDITOR_PROPERTIES[1]:
       propertySelectComponent = (
-        <TextSize
-          onChange={onChange}
-          value={22}
-          // value={values.text.size}
-        />
+        <TextSize onChange={onChange} value={22} name="size" />
       );
       title = "Changer la taille de la police d’écriture";
       break;
     case EDITOR_PROPERTIES[2]:
-      propertySelectComponent = <TextColor onChange={onChange} />;
+      propertySelectComponent = <TextColor onChange={onChange} name="color" />;
       title = "Changer la couleur de la police d’écriture";
       break;
     case EDITOR_PROPERTIES[3]:
@@ -157,11 +161,7 @@ const Editor = ({
       break;
     default:
       propertySelectComponent = (
-        <Police
-          onChange={onChange}
-          value={FONTS[0]}
-          // value={values.text.font}
-        />
+        <Police onChange={onChange} value={FONTS[0]} name="font" />
       );
       title = "Changer la police d’écriture";
   }
@@ -172,6 +172,8 @@ const Editor = ({
       {propertySelectComponent && (
         <div css={classes.property}>{propertySelectComponent}</div>
       )}
+
+      {/* ------------ layers editor ------------ */}
       <div className="flexCenter flex1 stretchSelf">
         <div css={classes.template(template)}>
           {template.layers.map((layer) =>

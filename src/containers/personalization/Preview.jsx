@@ -102,36 +102,17 @@ const Preview = () => {
   const handleSelectLayer = (value) => setSelectedLayer(value);
 
   const handleFormValuesChange = useCallback(
-    (value) => {
-      const textValues = {};
-      const imageValues = {};
+    (value, name) => {
+      if (!selectedLayer) return;
 
       const newTemplate = { ...template };
+      newTemplate.layers.forEach(
+        updateLayersValue(selectedLayer.id, value, [name])
+      );
 
-      switch (property) {
-        case EDITOR_PROPERTIES[1]:
-          textValues.size = value;
-          break;
-        case EDITOR_PROPERTIES[2]:
-          textValues.color = value;
-          break;
-        case EDITOR_PROPERTIES[3]:
-          imageValues.rotation = value.rotation;
-          break;
-        default:
-          textValues.font = value;
-          newTemplate.layers.forEach(
-            updateLayersValue(selectedLayer.id, value, "font")
-          );
-      }
-
-      // setValues((prev) => ({
-      //   ...prev,
-      //   text: { ...prev.text, ...textValues },
-      //   image: { ...prev.image, ...imageValues },
-      // }));
+      setTemplate(newTemplate);
     },
-    [property, template, selectedLayer]
+    [template, selectedLayer]
   );
 
   return (

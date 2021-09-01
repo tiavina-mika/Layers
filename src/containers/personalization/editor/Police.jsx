@@ -33,11 +33,11 @@ const classes = {
   })
 };
 
-const Police = ({ onChange, value }) => {
+const Police = ({ onChange, value, name }) => {
   const handleChange = (e) => {
     const police = e.target.value;
     if (onChange) {
-      onChange(police);
+      onChange(police, name);
     }
   };
 
