@@ -16,8 +16,8 @@ const classes = {
     cursor: "pointer"
   },
   color: (color) => ({
-    backgroundColor: "#" + color.color,
-    border: "2px solid #" + (color.border || "fff"),
+    backgroundColor: color.color,
+    border: "2px solid" + (color.border || "fff"),
     height: 32,
     width: 32,
     borderRadius: "50%"
