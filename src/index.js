@@ -6,6 +6,7 @@ import "antd/dist/antd.css";
 import theme from "./styles/theme";
 import { globalStyles } from "./styles/styles";
 import Preview from "./containers/personalization/Preview";
+// import Editor2 from 'Editor2';
 
 const App = () => {
   return (
