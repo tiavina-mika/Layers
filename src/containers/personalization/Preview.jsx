@@ -82,32 +82,29 @@ const templateData = {
   backgroundColor: "grey"
 };
 
-// const Preview = () => {
-//   // const [property, setProperty] = useState(EDITOR_PROPERTIES[0]);
-//   // const [template, setTemplate] = useState(templateData);
+const Preview = () => {
+  const [property, setProperty] = useState(EDITOR_PROPERTIES[0]);
+  const [template, setTemplate] = useState(templateData);
+  console.log(template);
 
-//   // const onEditTemplate = (template) => setTemplate(template);
+  const onEditTemplate = (template) => setTemplate(template);
 
-//   // const onSelectProperty = (value) => setProperty(value);
+  const onSelectProperty = (value) => setProperty(value);
 
-//   return (
-//     <div>cool</div>
-//     // <div className="flexCenter">
-//     //   <div className="flexRow flex1 stretchSelf">
-//     //     <Properties
-//     //       onChange={onSelectProperty}
-//     //       property={property}
-//     //       hasTextLayer={hasTextLayer(template.layers)}
-//     //     />
-//     //     <Editor
-//     //       template={template}
-//     //       onEditTemplate={onEditTemplate}
-//     //     />
-//     //   </div>
-//     // </div>
-//   );
-// };
+  return (
+    <div className="flexCenter">
+      <div className="flexRow flex1 stretchSelf">
+        <Properties
+          onChange={onSelectProperty}
+          property={property}
+          hasTextLayer={hasTextLayer(template.layers)}
+        />
+        <Editor template={template} onEditTemplate={onEditTemplate} />
+      </div>
+    </div>
+  );
+};
 
-const Preview = () => <div>cool</div>;
+// const Preview = () => <div>cool</div>;
 
 export default Preview;
