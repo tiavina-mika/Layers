@@ -1,86 +1,11 @@
 /** @jsxRuntime classic /
 /* @jsx jsx */
 import { jsx } from "@emotion/react";
-import { useCallback, useState } from "react";
-import { cmToPx, zoom } from "./utils/utils";
-import { updateLayersValue } from "./actions/templates";
-import TextLayer from "./TextLayer";
+import { useCallback } from "react";
+import PropTypes from "prop-types";
 
-const layers = [
-  {
-    id: "mask1",
-    type: "mask",
-    top: 0,
-    left: 0,
-    width: 250,
-    height: 250,
-    imageId: "/alpha-cat.png",
-    layers: [
-      {
-        id: "maskImage1",
-        type: "userImage",
-        top: 0,
-        left: 0,
-        width: 250,
-        height: 250,
-        imageId: "/me.jpg"
-      },
-      {
-        id: "masktext1",
-        type: "userText",
-        top: 50,
-        left: 60,
-        width: 200,
-        height: 15,
-        text: "cool 1",
-        font: "Montserrat",
-        size: 32,
-        alignment: "left",
-        color: "blue"
-      }
-    ]
-  },
-  {
-    id: "mask2",
-    type: "mask",
-    top: 250,
-    left: 250,
-    width: 260,
-    height: 260,
-    imageId: "/alpha-cat.png",
-    layers: [
-      {
-        id: "maskImage2",
-        type: "image",
-        top: 0,
-        left: 0,
-        width: 260,
-        height: 260,
-        imageId: "/image1.jpg"
-      }
-    ]
-  },
-  {
-    id: "text1",
-    type: "userText",
-    top: 500,
-    left: 0,
-    width: 200,
-    height: 75,
-    text: "cool 2",
-    font: "Montserrat",
-    size: 45,
-    alignment: "left",
-    color: "green"
-  }
-];
-const templateData = {
-  name: "template1",
-  width: 11,
-  height: 11,
-  layers,
-  backgroundColor: "grey"
-};
+import TextLayer from "./TextLayer";
+import { cmToPx, zoom } from "../../utils/utils";
 
 const classes = {
   editor: {
@@ -133,10 +58,7 @@ const classes = {
   })
 };
 
-const Editor = () => {
-  const [template, setTemplate] = useState(templateData);
-  console.log(template);
-
+const Editor = ({ template, onEditTemplate }) => {
   const selectLayer = (layer) => {
     if (layer.type === "image" || layer.type === "userText") return;
     if (layer.type === "userImage") {
@@ -144,7 +66,7 @@ const Editor = () => {
       newTemplate.layers.forEach(
         updateLayersValue(layer.id, "/le_cri.jpg", "imageId")
       );
-      setTemplate(newTemplate);
+      onEditTemplate(newTemplate);
     }
   };
 
@@ -152,7 +74,7 @@ const Editor = () => {
     (layer, value) => {
       const newTemplate = { ...template };
       newTemplate.layers.forEach(updateLayersValue(layer.id, value, "text"));
-      setTemplate(newTemplate);
+      onEditTemplate(newTemplate);
     },
     [template]
   );
@@ -211,6 +133,11 @@ const Editor = () => {
       </div>
     </div>
   );
+};
+
+Editor.propTypes = {
+  template: PropTypes.any,
+  onEditTemplate: PropTypes.func
 };
 
 export default Editor;
