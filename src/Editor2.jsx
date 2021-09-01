@@ -1,10 +1,7 @@
 /** @jsxRuntime classic /
 /* @jsx jsx */
 import { jsx } from "@emotion/react";
-import { useCallback, useState } from "react";
 import { cmToPx, zoom } from "./utils/utils";
-import { updateLayersValue } from "./actions/templates";
-import TextLayer from "./TextLayer";
 
 const layers = [
   {
@@ -31,7 +28,7 @@ const layers = [
         top: 50,
         left: 60,
         width: 200,
-        height: 15,
+        height: 200,
         text: "cool 1",
         font: "Montserrat",
         size: 32,
@@ -66,7 +63,7 @@ const layers = [
     top: 500,
     left: 0,
     width: 200,
-    height: 75,
+    height: 200,
     text: "cool 2",
     font: "Montserrat",
     size: 45,
@@ -74,7 +71,7 @@ const layers = [
     color: "green"
   }
 ];
-const templateData = {
+const template = {
   name: "template1",
   width: 11,
   height: 11,
@@ -113,8 +110,7 @@ const classes = {
     top: zoom(template, layer.top),
     height: zoom(template, layer.height),
     left: zoom(template, layer.left),
-    position: "absolute",
-    cursor: layer.type !== "image" ? "pointer" : "default"
+    position: "absolute"
   }),
   image: {
     width: "100%",
@@ -123,6 +119,7 @@ const classes = {
   },
   input: (template, layer) => ({
     fontSize: zoom(template, layer.size),
+    // fontSize: layer.size,
     color: layer.color,
     textAlign: layer.alignment,
     backgroundColor: "transparent",
@@ -134,64 +131,39 @@ const classes = {
 };
 
 const Editor = () => {
-  const [template, setTemplate] = useState(templateData);
-  console.log(template);
-
-  const selectLayer = (layer) => {
-    if (layer.type === "image" || layer.type === "userText") return;
-    if (layer.type === "userImage") {
-      const newTemplate = { ...template };
-      newTemplate.layers.forEach(
-        updateLayersValue(layer.id, "/le_cri.jpg", "imageId")
-      );
-      setTemplate(newTemplate);
+  const getLayer = (layer) => {
+    switch (layer.type) {
+      case "userText":
+        return (
+          <input
+            type="text"
+            value={layer.text}
+            css={classes.input(template, layer)}
+            onChange={() => {}}
+          />
+        );
+      case "image":
+        return <img alt="layer" src={layer.imageId} css={classes.image} />;
+      default:
+        return <img alt="layer" src={layer.imageId} css={classes.image} />;
     }
   };
 
-  const onChangeTextLayer = useCallback(
-    (layer, value) => {
-      const newTemplate = { ...template };
-      newTemplate.layers.forEach(updateLayersValue(layer.id, value, "text"));
-      setTemplate(newTemplate);
-    },
-    [template]
-  );
-
-  const getLayer = useCallback(
-    (layer) => {
-      switch (layer.type) {
-        case "userText": {
-          const onChange = (value) => {
-            onChangeTextLayer(layer, value);
-          };
-          return (
-            <TextLayer
-              defaultValue={layer.text}
-              css={classes.input(template, layer)}
-              onChange={onChange}
-            />
-          );
-        }
-        case "image":
-          return <img alt="layer" src={layer.imageId} css={classes.image} />;
-        default:
-          return <img alt="layer" src={layer.imageId} css={classes.image} />;
-      }
-    },
-    [template, onChangeTextLayer]
-  );
-
-  const layerComponent = (layer) => (
-    <div
-      css={classes.layer(template, layer)}
-      key={layer.id}
-      onClick={() => selectLayer(layer)}
-    >
-      {getLayer(layer)}
-    </div>
-  );
-
-  if (!template) return null;
+  // console.log('50.7', cmToPx(50.7));
+  // console.log('50', cmToPx(50));
+  // console.log('47', cmToPx(47));
+  // console.log('43', cmToPx(43));
+  // console.log('42', cmToPx(42));
+  // console.log('41', cmToPx(41));
+  // console.log('40', cmToPx(40));
+  // console.log('47', cmToPx(47));
+  // console.log('34', cmToPx(34));
+  // console.log('31', cmToPx(31));
+  // console.log('30', cmToPx(30));
+  // console.log('28.5', cmToPx(28.5));
+  // console.log('22', cmToPx(22));
+  // console.log('21', cmToPx(21));
+  // console.log('20', cmToPx(20));
 
   return (
     <div css={classes.editor}>
@@ -202,10 +174,16 @@ const Editor = () => {
               css={[classes.mask(layer), classes.layer(template, layer)]}
               key={layer.id}
             >
-              {layer.layers.map((subLayer) => layerComponent(subLayer))}
+              {layer.layers.map((subLayer) => (
+                <div css={classes.layer(template, subLayer)} key={subLayer.id}>
+                  {getLayer(subLayer)}
+                </div>
+              ))}
             </div>
           ) : (
-            layerComponent(layer)
+            <div css={classes.layer(template, layer)} key={layer.id}>
+              {getLayer(layer)}
+            </div>
           )
         )}
       </div>
