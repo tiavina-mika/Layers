@@ -7,6 +7,7 @@ const theme = {
     alert: "#ff7676", // old infored
     active: "#22c93a",
     gray: "#d8d8d8",
+    primaryLight: "#F0F1FB",
     lightWhite: "#f5f5f5",
     transparentPrimary: "#1b28377a",
     lightShadow: "rgba(67,67,67,0.5)",
@@ -30,7 +31,8 @@ const theme = {
     errorSecondary: "#FDECEA"
   },
   fonts: {
-    primary: "Mont, sans-serif"
+    primary: "Mont, sans-serif",
+    secondary: "Montserrat, sans-serif"
   },
   spacing: (spacing) => spacing * 6
 };

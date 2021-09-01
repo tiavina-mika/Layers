@@ -1,5 +1,6 @@
 /** @jsxRuntime classic /
 /* @jsx jsx */
+import { jsx } from "@emotion/react";
 import PropTypes from "prop-types";
 
 import Typography from "../../components/Typography";
@@ -35,6 +36,7 @@ export const properties = [
 const classes = {
   properties: (theme) => ({
     background: theme.colors.primaryLight,
+    // background: theme.colors.primaryLight,
     width: 141
     // height: 834,
   }),

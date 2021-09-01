@@ -6,12 +6,13 @@ import PropTypes from "prop-types";
 
 import TextLayer from "./TextLayer";
 import { cmToPx, zoom } from "../../utils/utils";
+import { updateLayersValue } from "../../actions/templates";
 
 const classes = {
-  editor: {
-    width: "100vw",
-    height: "100vh"
-  },
+  // editor: {
+  //   width: "100vw",
+  //   height: "100vh"
+  // },
   template: (template) => ({
     height: zoom(template, cmToPx(template.height)),
     width: zoom(template, cmToPx(template.width)),
@@ -76,7 +77,7 @@ const Editor = ({ template, onEditTemplate }) => {
       newTemplate.layers.forEach(updateLayersValue(layer.id, value, "text"));
       onEditTemplate(newTemplate);
     },
-    [template]
+    [template, onEditTemplate]
   );
 
   const getLayer = useCallback(
@@ -116,7 +117,7 @@ const Editor = ({ template, onEditTemplate }) => {
   if (!template) return null;
 
   return (
-    <div css={classes.editor}>
+    <div className="flexCenter flex1 stretchSelf">
       <div css={classes.template(template)}>
         {template.layers.map((layer) =>
           layer.type === "mask" ? (

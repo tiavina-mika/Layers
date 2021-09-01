@@ -1,5 +1,6 @@
 /** @jsxRuntime classic /
 /* @jsx jsx */
+import { jsx } from "@emotion/react";
 import { useState } from "react";
 import { hasTextLayer } from "../../actions/templates";
 import { EDITOR_PROPERTIES } from "../../utils/constants";
@@ -82,6 +83,11 @@ const templateData = {
   backgroundColor: "grey"
 };
 
+const classes = {
+  container: {
+    height: "100vh"
+  }
+};
 const Preview = () => {
   const [property, setProperty] = useState(EDITOR_PROPERTIES[0]);
   const [template, setTemplate] = useState(templateData);
@@ -92,7 +98,7 @@ const Preview = () => {
   const onSelectProperty = (value) => setProperty(value);
 
   return (
-    <div className="flexCenter">
+    <div className="flexCenter" css={classes.container}>
       <div className="flexRow flex1 stretchSelf">
         <Properties
           onChange={onSelectProperty}
@@ -104,7 +110,5 @@ const Preview = () => {
     </div>
   );
 };
-
-// const Preview = () => <div>cool</div>;
 
 export default Preview;
