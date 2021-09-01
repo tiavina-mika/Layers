@@ -121,9 +121,9 @@ const Preview = () => {
   // ----------------------------------- //
   // --- edit layer input text value --- //
   // ----------------------------------- //
-  const onChangeTextLayer = (layer, value) => {
+  const handleChangeTextLayer = (textLayer, value) => {
     const newTemplate = { ...template };
-    newTemplate.layers.forEach(updateLayersValue(layer.id, value, "text"));
+    newTemplate.layers.forEach(updateLayersValue(textLayer.id, value, "text"));
     setTemplate(newTemplate);
   };
 
@@ -141,7 +141,7 @@ const Preview = () => {
           property={property}
           onChange={handleFormValuesChange}
           onSelectLayer={handleSelectLayer}
-          onChangeTextLayer={onChangeTextLayer}
+          onChangeTextLayer={handleChangeTextLayer}
         />
       </div>
     </div>
