@@ -1,9 +1,10 @@
 /** @jsxRuntime classic /
 /* @jsx jsx */
+import { jsx } from "@emotion/react";
 import { Slider as AntdSlider } from "antd";
 import PropTypes from "prop-types";
 
-import theme from "../../../../styles/theme";
+import theme from "../../../styles/theme";
 
 const SLIDER = {
   width: 340,

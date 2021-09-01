@@ -1,9 +1,9 @@
 /** @jsxRuntime classic /
 /* @jsx jsx */
+import { jsx } from "@emotion/react";
 import { Radio } from "antd";
 import PropTypes from "prop-types";
-
-import { FONTS } from "../../../../utils/constants";
+import { FONTS } from "../../../utils/constants";
 
 const classes = {
   radioGroup: {

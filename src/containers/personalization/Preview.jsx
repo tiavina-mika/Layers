@@ -1,8 +1,8 @@
 /** @jsxRuntime classic /
 /* @jsx jsx */
 import { jsx } from "@emotion/react";
-import { useState } from "react";
-import { hasTextLayer } from "../../actions/templates";
+import { useCallback, useState } from "react";
+import { hasTextLayer, updateLayersValue } from "../../actions/templates";
 import { EDITOR_PROPERTIES } from "../../utils/constants";
 import Editor from "./Editor";
 import Properties from "./Properties";
@@ -91,11 +91,48 @@ const classes = {
 const Preview = () => {
   const [property, setProperty] = useState(EDITOR_PROPERTIES[0]);
   const [template, setTemplate] = useState(templateData);
+  const [selectedLayer, setSelectedLayer] = useState(null);
+
   console.log(template);
 
   const onEditTemplate = (template) => setTemplate(template);
 
   const onSelectProperty = (value) => setProperty(value);
+
+  const handleSelectLayer = (value) => setSelectedLayer(value);
+
+  const handleFormValuesChange = useCallback(
+    (value) => {
+      const textValues = {};
+      const imageValues = {};
+
+      const newTemplate = { ...template };
+
+      switch (property) {
+        case EDITOR_PROPERTIES[1]:
+          textValues.size = value;
+          break;
+        case EDITOR_PROPERTIES[2]:
+          textValues.color = value;
+          break;
+        case EDITOR_PROPERTIES[3]:
+          imageValues.rotation = value.rotation;
+          break;
+        default:
+          textValues.font = value;
+          newTemplate.layers.forEach(
+            updateLayersValue(selectedLayer.id, value, "font")
+          );
+      }
+
+      // setValues((prev) => ({
+      //   ...prev,
+      //   text: { ...prev.text, ...textValues },
+      //   image: { ...prev.image, ...imageValues },
+      // }));
+    },
+    [property, template, selectedLayer]
+  );
 
   return (
     <div className="flexCenter" css={classes.container}>
@@ -105,7 +142,13 @@ const Preview = () => {
           property={property}
           hasTextLayer={hasTextLayer(template.layers)}
         />
-        <Editor template={template} onEditTemplate={onEditTemplate} />
+        <Editor
+          template={template}
+          onEditTemplate={onEditTemplate}
+          property={property}
+          onChange={handleFormValuesChange}
+          onSelectLayer={handleSelectLayer}
+        />
       </div>
     </div>
   );

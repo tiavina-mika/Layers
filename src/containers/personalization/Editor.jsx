@@ -5,14 +5,22 @@ import { useCallback } from "react";
 import PropTypes from "prop-types";
 
 import TextLayer from "./TextLayer";
+import Police from "./editor/Police";
+import TextColor from "./editor/TextColor";
+import TextSize from "./editor/TextSize";
 import { cmToPx, zoom } from "../../utils/utils";
 import { updateLayersValue } from "../../actions/templates";
+import Step from "./Step";
+import { EDITOR_PROPERTIES, FONTS } from "../../utils/constants";
 
 const classes = {
   // editor: {
   //   width: "100vw",
   //   height: "100vh"
   // },
+  property: {
+    marginTop: 23
+  },
   template: (template) => ({
     height: zoom(template, cmToPx(template.height)),
     width: zoom(template, cmToPx(template.width)),
@@ -59,16 +67,25 @@ const classes = {
   })
 };
 
-const Editor = ({ template, onEditTemplate }) => {
+const Editor = ({
+  template,
+  onEditTemplate,
+  property,
+  values,
+  onChange,
+  onSelectLayer
+}) => {
   const selectLayer = (layer) => {
+    if (!onSelectLayer) return;
     if (layer.type === "image" || layer.type === "userText") return;
-    if (layer.type === "userImage") {
-      const newTemplate = { ...template };
-      newTemplate.layers.forEach(
-        updateLayersValue(layer.id, "/le_cri.jpg", "imageId")
-      );
-      onEditTemplate(newTemplate);
-    }
+    onSelectLayer(layer);
+    // if (layer.type === "userImage") {
+    //   const newTemplate = { ...template };
+    //   newTemplate.layers.forEach(
+    //     updateLayersValue(layer.id, "/le_cri.jpg", "imageId")
+    //   );
+    //   onEditTemplate(newTemplate);
+    // }
   };
 
   const onChangeTextLayer = useCallback(
@@ -116,29 +133,72 @@ const Editor = ({ template, onEditTemplate }) => {
 
   if (!template) return null;
 
+  let propertySelectComponent;
+  let title;
+
+  // forms
+  switch (property) {
+    case EDITOR_PROPERTIES[1]:
+      propertySelectComponent = (
+        <TextSize
+          onChange={onChange}
+          value={22}
+          // value={values.text.size}
+        />
+      );
+      title = "Changer la taille de la police d’écriture";
+      break;
+    case EDITOR_PROPERTIES[2]:
+      propertySelectComponent = <TextColor onChange={onChange} />;
+      title = "Changer la couleur de la police d’écriture";
+      break;
+    case EDITOR_PROPERTIES[3]:
+      title = "Recadrer ou tourner la photo";
+      break;
+    default:
+      propertySelectComponent = (
+        <Police
+          onChange={onChange}
+          value={FONTS[0]}
+          // value={values.text.font}
+        />
+      );
+      title = "Changer la police d’écriture";
+  }
+
   return (
-    <div className="flexCenter flex1 stretchSelf">
-      <div css={classes.template(template)}>
-        {template.layers.map((layer) =>
-          layer.type === "mask" ? (
-            <div
-              css={[classes.mask(layer), classes.layer(template, layer)]}
-              key={layer.id}
-            >
-              {layer.layers.map((subLayer) => layerComponent(subLayer))}
-            </div>
-          ) : (
-            layerComponent(layer)
-          )
-        )}
+    <Step title={title} className="flexCenter flex1 stretchSelf">
+      {/* ------------ form ------------ */}
+      {propertySelectComponent && (
+        <div css={classes.property}>{propertySelectComponent}</div>
+      )}
+      <div className="flexCenter flex1 stretchSelf">
+        <div css={classes.template(template)}>
+          {template.layers.map((layer) =>
+            layer.type === "mask" ? (
+              <div
+                css={[classes.mask(layer), classes.layer(template, layer)]}
+                key={layer.id}
+              >
+                {layer.layers.map((subLayer) => layerComponent(subLayer))}
+              </div>
+            ) : (
+              layerComponent(layer)
+            )
+          )}
+        </div>
       </div>
-    </div>
+    </Step>
   );
 };
 
 Editor.propTypes = {
   template: PropTypes.any,
-  onEditTemplate: PropTypes.func
+  onEditTemplate: PropTypes.func,
+  onChange: PropTypes.func,
+  onSelectLayer: PropTypes.func,
+  property: PropTypes.any,
+  values: PropTypes.any
 };
 
 export default Editor;

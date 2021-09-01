@@ -1,8 +1,8 @@
 /** @jsxRuntime classic /
 /* @jsx jsx */
+import { jsx } from "@emotion/react";
 import PropTypes from "prop-types";
-
-import { COLORS } from "../../../../utils/constants";
+import { COLORS } from "../../../utils/constants";
 
 const classes = {
   colors: {
