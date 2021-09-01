@@ -9,15 +9,10 @@ import Police from "./editor/Police";
 import TextColor from "./editor/TextColor";
 import TextSize from "./editor/TextSize";
 import { cmToPx, zoom } from "../../utils/utils";
-import { updateLayersValue } from "../../actions/templates";
 import Step from "./Step";
 import { EDITOR_PROPERTIES, FONTS } from "../../utils/constants";
 
 const classes = {
-  // editor: {
-  //   width: "100vw",
-  //   height: "100vh"
-  // },
   property: {
     marginTop: 23
   },
@@ -69,7 +64,6 @@ const classes = {
 
 const Editor = ({
   template,
-  onEditTemplate,
   property,
   onChange,
   onSelectLayer,
@@ -188,7 +182,6 @@ const Editor = ({
 
 Editor.propTypes = {
   template: PropTypes.any,
-  onEditTemplate: PropTypes.func,
   onChangeTextLayer: PropTypes.func,
   onChange: PropTypes.func,
   onSelectLayer: PropTypes.func,
