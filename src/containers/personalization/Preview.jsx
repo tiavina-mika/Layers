@@ -101,6 +101,9 @@ const Preview = () => {
 
   const handleSelectLayer = (value) => setSelectedLayer(value);
 
+  // ------------------------- //
+  // --- edit layer values --- //
+  // ------------------------- //
   const handleFormValuesChange = useCallback(
     (value, name) => {
       if (!selectedLayer) return;
@@ -114,6 +117,15 @@ const Preview = () => {
     },
     [template, selectedLayer]
   );
+
+  // ----------------------------------- //
+  // --- edit layer input text value --- //
+  // ----------------------------------- //
+  const onChangeTextLayer = (layer, value) => {
+    const newTemplate = { ...template };
+    newTemplate.layers.forEach(updateLayersValue(layer.id, value, "text"));
+    setTemplate(newTemplate);
+  };
 
   return (
     <div className="flexCenter" css={classes.container}>
@@ -129,6 +141,7 @@ const Preview = () => {
           property={property}
           onChange={handleFormValuesChange}
           onSelectLayer={handleSelectLayer}
+          onChangeTextLayer={onChangeTextLayer}
         />
       </div>
     </div>

@@ -44,7 +44,8 @@ const TextColor = ({ onChange, name }) => {
 };
 
 TextColor.propTypes = {
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  name: PropTypes.string
 };
 
 export default TextColor;

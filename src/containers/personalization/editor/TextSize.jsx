@@ -60,7 +60,8 @@ const TextSize = ({ onChange, value, name }) => {
 
 TextSize.propTypes = {
   onChange: PropTypes.func,
-  value: PropTypes.number
+  value: PropTypes.number,
+  name: PropTypes.string
 };
 
 export default TextSize;

@@ -72,7 +72,8 @@ const Editor = ({
   onEditTemplate,
   property,
   onChange,
-  onSelectLayer
+  onSelectLayer,
+  onChangeTextLayer
 }) => {
   const selectLayer = (layer) => {
     if (!onSelectLayer) return;
@@ -86,15 +87,6 @@ const Editor = ({
     //   onEditTemplate(newTemplate);
     // }
   };
-
-  const onChangeTextLayer = useCallback(
-    (layer, value) => {
-      const newTemplate = { ...template };
-      newTemplate.layers.forEach(updateLayersValue(layer.id, value, "text"));
-      onEditTemplate(newTemplate);
-    },
-    [template, onEditTemplate]
-  );
 
   // --------------------------------- //
   // --- each layer type component --- //
@@ -139,7 +131,7 @@ const Editor = ({
   if (!template) return null;
 
   // ----------------------------------------- //
-  // ------------ form components ------------ //
+  // ------------ input components ----------- //
   // ----------------------------------------- //
   let propertySelectComponent;
   let title;
@@ -197,6 +189,7 @@ const Editor = ({
 Editor.propTypes = {
   template: PropTypes.any,
   onEditTemplate: PropTypes.func,
+  onChangeTextLayer: PropTypes.func,
   onChange: PropTypes.func,
   onSelectLayer: PropTypes.func,
   property: PropTypes.any,
