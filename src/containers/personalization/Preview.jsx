@@ -110,7 +110,7 @@ const Preview = () => {
 
       const newTemplate = { ...template };
       newTemplate.layers.forEach(
-        updateLayersValue(selectedLayer.id, value, [name])
+        updateLayersValue(selectedLayer.id, value, name)
       );
 
       setTemplate(newTemplate);

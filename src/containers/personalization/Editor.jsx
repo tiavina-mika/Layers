@@ -11,6 +11,7 @@ import TextSize from "./editor/TextSize";
 import { cmToPx, zoom } from "../../utils/utils";
 import Step from "./Step";
 import { EDITOR_PROPERTIES, FONTS } from "../../utils/constants";
+import { updateLayersValue } from "../../actions/templates";
 
 const classes = {
   property: {
@@ -71,13 +72,13 @@ const Editor = ({
   const selectLayer = (layer) => {
     if (!onSelectLayer) return;
     if (layer.type === "image") return;
-    onSelectLayer(layer);
+    // onSelectLayer(layer);
     // if (layer.type === "userImage") {
     //   const newTemplate = { ...template };
     //   newTemplate.layers.forEach(
     //     updateLayersValue(layer.id, "/le_cri.jpg", "imageId")
     //   );
-    //   onEditTemplate(newTemplate);
+    //   // onEditTemplate(newTemplate);
     // }
   };
 
